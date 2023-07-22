@@ -8,14 +8,6 @@ on:
 permissions: read-all
 
 jobs:
-  codeql:
-    uses: ./.github/workflows/codeql.yaml
-
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
   scorecard:
     uses: ./.github/workflows/openssf-scorecard.yaml
 
@@ -96,7 +88,6 @@ jobs:
   container_build_release:
     if: ${{needs.container_releases_matrix.outputs.matrix != '[]'}}
     needs:
-      - codeql
       - container_releases_matrix
 
     permissions:
@@ -160,7 +151,6 @@ jobs:
     if: ${{needs.container_changes_matrix.outputs.matrix != '[]'}}
 
     needs:
-      - codeql
       - container_changes_matrix
 
     permissions:
