@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "baseBranches": ["main"],
+  "rebaseWhen": "conflicted",
+  "labels": ["dependencies"],
+  "automergeStrategy": "rebase",
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackagePatterns": ["alpine"],
+      "separateMinorPatch": true
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackagePatterns": ["alpine"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+name: Renovate
+
+on:
+  workflow_call:
+    inputs:
+      logLevel:
+        type: string
+        required: false
+        default: info
+    secrets:
+      BOT_APP_ID:
+        required: true
+      BOT_PRIVATE_KEY:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: step-security/harden-runner@55d479fb1c5bcad5a4f9099a5d9f37c8857b2845 # v2.4.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - id: get_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
+      - uses: renovatebot/github-action@v39.0.0
+        with:
+          configurationFile: .github/renovate.json
+          token: ${{ steps.get_token.outputs.token }}
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_ONBOARDING: "false"
+          RENOVATE_USERNAME: remkomolier-repo-jeeves[bot]
+          RENOVATE_GIT_AUTHOR: Self-hosted Renovate Bot <139859299+remkomolier-repo-jeeves[bot]@users.noreply.github.com>
+          RENOVATE_PLATFORM_COMMIT: "true"
+          RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+          LOG_LEVEL: ${{ inputs.logLevel }}
