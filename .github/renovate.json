@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "configMigration": true,
   "extends": [
-    "config:base",
+    "config:recommended",
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies",
@@ -14,25 +14,44 @@
     "workarounds:all",
     "regexManagers:dockerfileVersions"
   ],
-  "baseBranches": ["main"],
+  "baseBranches": [
+    "main"
+  ],
   "rebaseWhen": "conflicted",
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "automergeStrategy": "rebase",
   "packageRules": [
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackagePatterns": ["alpine"],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackagePatterns": [
+        "alpine"
+      ],
       "separateMinorPatch": true
     },
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackagePatterns": ["alpine"],
-      "matchUpdateTypes": ["patch"],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackagePatterns": [
+        "alpine"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true
     },
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true
     }
   ]
