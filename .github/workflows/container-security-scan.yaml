@@ -42,7 +42,7 @@ jobs:
           artifact-name: image.spdx.json
           dependency-snapshot: true
       - id: grype
-        uses: anchore/scan-action@f8d9cf1352c872bf9c61e87c1d02a7d1c63ef0b9 # v3.3.6
+        uses: anchore/scan-action@24fd7c9060f3c96848dd1929fac8d796fb5ae4b4 # v3.3.6
         with:
           image: ${{ inputs.image }}
           fail-build: false
