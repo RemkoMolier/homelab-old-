@@ -82,10 +82,3 @@ jobs:
         with:
           retain_days: 30
           keep_minimum_runs: 6
-
-  renovate:
-    permissions:
-      contents: read
-
-    uses: ./.github/workflows/renovate.yaml
-    secrets: inherit

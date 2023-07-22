@@ -1,6 +1,7 @@
 name: Renovate
 
 on:
+  workflow_dispatch: {}
   workflow_call:
     inputs:
       logLevel:
@@ -12,6 +13,8 @@ on:
         required: true
       BOT_PRIVATE_KEY:
         required: true
+  schedule:
+    - cron: 59 * * * *
 
 permissions:
   contents: read
@@ -33,7 +36,7 @@ jobs:
         with:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_PRIVATE_KEY }}
-      - uses: renovatebot/github-action@v39.0.0
+      - uses: renovatebot/github-action@eb0ef0ca2efe27f0b0a70ca6cd1eee63fcfbb61a # v39.0.0
         with:
           configurationFile: .github/renovate.json
           token: ${{ steps.get_token.outputs.token }}
@@ -43,5 +46,6 @@ jobs:
           RENOVATE_USERNAME: remkomolier-repo-jeeves[bot]
           RENOVATE_GIT_AUTHOR: Self-hosted Renovate Bot <139859299+remkomolier-repo-jeeves[bot]@users.noreply.github.com>
           RENOVATE_PLATFORM_COMMIT: "true"
-          RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+          RENOVATE_ASSIGN_AUTOMERGE: "true"
+          RENOVATE_ASSIGNEES_FROM_CODE_OWNERS: "true"
           LOG_LEVEL: ${{ inputs.logLevel }}
