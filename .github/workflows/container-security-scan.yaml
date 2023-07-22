@@ -34,7 +34,7 @@ jobs:
           name: ${{ inputs.artifact }}
           path: /tmp
       - run: |
-          docker load --input /tmp/${{ inputs.artifact }}
+          docker load --input /tmp/${{ inputs.artifact }}.tar
         if: ${{ inputs.artifact != '' }}
       - id: grype
         uses: anchore/scan-action@f8d9cf1352c872bf9c61e87c1d02a7d1c63ef0b9 # pin@v3.3.6
