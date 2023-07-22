@@ -334,8 +334,8 @@ jobs:
       contents: read
 
     outputs:
-      image: ${{ needs.context.outputs.container }}:${{ github.ref_name }}
-      artifact: image.${{ needs.context.outputs.container }}.tar
+      image: ${{ fromJSON(steps.metadata.outputs.json).tags[0] }}
+      artifact: image.${{ needs.context.outputs.container }}
 
     steps:
       - uses: step-security/harden-runner@55d479fb1c5bcad5a4f9099a5d9f37c8857b2845 # v2.4.1
@@ -355,16 +355,22 @@ jobs:
           labels: |
             ${{ needs.context.outputs.labels }}
           tags: |
-            type=raw,value=${{ github.ref_name }}
+            type=ref,event=pr
+            type=ref,event=branch
       - uses: docker/setup-buildx-action@4c0219f9ac95b02789c1075625400b2acbff50b1 # v2.9.1
       - uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4.1.1
         with:
           context: ${{ inputs.path }}
           labels: ${{ steps.metadata.outputs.labels }}
+          tags: ${{ steps.metadata.outputs.tags }}
+          build-args: |
+            BUILDTIME=${{ fromJSON(steps.metadata.outputs.json).labels['org.opencontainers.image.created'] }}
+            VERSION=${{ fromJSON(steps.metadata.outputs.json).labels['org.opencontainers.image.version'] }}
+            REVISION=${{ fromJSON(steps.metadata.outputs.json).labels['org.opencontainers.image.revision'] }}
           outputs: type=docker,dest=/tmp/image.${{ needs.context.outputs.container }}.tar
       - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
-          name: image.${{ needs.context.outputs.container }}.tar
+          name: image.${{ needs.context.outputs.container }}
           path: /tmp/image.${{ needs.context.outputs.container }}.tar
 
   scan-repository:
@@ -394,4 +400,4 @@ jobs:
 
     with:
       image: ${{ needs.build-artifact.outputs.image }}
-      artifact: ${{ needs.build-artifact.outputs.image }}
+      artifact: ${{ needs.build-artifact.outputs.artifact }}
