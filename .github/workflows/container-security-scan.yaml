@@ -36,6 +36,11 @@ jobs:
       - run: |
           docker load --input /tmp/${{ inputs.artifact }}.tar
         if: ${{ inputs.artifact != '' }}
+      - uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        with:
+          image: ${{ inputs.image }}
+          artifact-name: image.spdx.json
+          dependency-snapshot: true
       - id: grype
         uses: anchore/scan-action@f8d9cf1352c872bf9c61e87c1d02a7d1c63ef0b9 # v3.3.6
         with:
