@@ -14,6 +14,7 @@ lint:
     - hadolint@2.12.1-beta
     - markdownlint@0.35.0
     - prettier@3.0.0
+    - renovate@36.18.4
     - taplo@0.8.1
     - terrascan@1.18.1:
         commands:
@@ -26,8 +27,7 @@ lint:
         - markdownlint
       paths:
         - CHANGELOG.md
-        - containers/dhcpd/CHANGELOG.md
-
+        - containers/*/CHANGELOG.md
 runtimes:
   enabled:
     - node@18.12.1
