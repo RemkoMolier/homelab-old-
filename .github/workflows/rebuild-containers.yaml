@@ -1,0 +1,58 @@
+name: Rebuild Containers
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  container_matrix:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.containers.outputs.result }}
+
+    steps:
+      - uses: step-security/harden-runner@55d479fb1c5bcad5a4f9099a5d9f37c8857b2845 # v2.4.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+        with:
+          sparse-checkout: |
+            containers
+      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+        id: containers
+        env:
+          WORKSPACE: ${{ github.workspace }}
+        with:
+          script:  |
+            const workspace = process.env.WORKSPACE
+            const globber = await glob.create('containers/*/Dockerfile');
+            var paths = [];
+            for await (const file of globber.globGenerator()) {
+              core.debug(`Found: ${file} => ${file.replace(`${workspace}/`,'')}`);
+              paths.push(file.replace(`${workspace}/`,'').split('/').slice(0,-1).join('/'));
+            }
+            return paths;
+ 
+  container_build:   
+    needs:
+      - container_matrix
+
+    permissions:
+      contents: write
+      packages: write
+      security-events: write
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        path: ${{ fromJSON(needs.container_matrix.outputs.matrix) }}
+
+    uses: ./.github/workflows/container-build.yaml
+    with:
+      path: ${{ matrix.path }}
+
+
