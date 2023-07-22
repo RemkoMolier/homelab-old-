@@ -51,7 +51,7 @@ jobs:
         with:
           sarif_file: ${{ steps.grype.outputs.sarif }}
           category: grype
-      - uses: aquasecurity/trivy-action@3dd517d8c9544cb8bfc2762d222b8e327bad2b75 # 0.11.2
+      - uses: aquasecurity/trivy-action@41f05d9ecffa2ed3f1580af306000f734b733e54 # 0.11.2
         with:
           image-ref: ${{ inputs.image }}
           format: sarif
