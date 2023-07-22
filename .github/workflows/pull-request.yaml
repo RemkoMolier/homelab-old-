@@ -86,7 +86,7 @@ jobs:
       - container_changes_matrix
 
     permissions:
-      contents: read
+      contents: write
       packages: write
       security-events: write
 
