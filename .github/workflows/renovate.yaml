@@ -48,4 +48,4 @@ jobs:
           RENOVATE_PLATFORM_COMMIT: "true"
           RENOVATE_ASSIGN_AUTOMERGE: "true"
           RENOVATE_ASSIGNEES_FROM_CODE_OWNERS: "true"
-          LOG_LEVEL: ${{ inputs.logLevel }}
+          LOG_LEVEL: ${{ (inputs.logLevel != '') && inputs.logLevel || 'info' }}
