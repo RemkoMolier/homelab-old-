@@ -39,7 +39,7 @@ jobs:
           sparse-checkout: |
             ${{ inputs.path }}
           fetch-depth: 0
-      - uses: ./.github/actions/container-context
+      - uses: remkomolier/homelab/.github/actions/container-context@main
         with:
           path: ${{ inputs.path }}
       - run: |
