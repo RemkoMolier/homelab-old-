@@ -104,7 +104,7 @@ jobs:
           docker run alpine.local apk info -v | sort -u > packages.txt
           git diff
       - id: pull-request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
         with:
           token: steps.get_token.outputs.token
           add-paths: |
@@ -114,7 +114,7 @@ jobs:
           branch: dependencies/containers/alpine
           title: Alpine Core Packages Dependencies Update
       - if: ${{ steps.pull-request.outputs.pull-request-number }}
-        uses: peter-evans/enable-pull-request-automerge@v3
+        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3
         with:
           token: steps.get_token.outputs.token
           pull-request-number: steps.pull-request.outputs.pull-request-number
