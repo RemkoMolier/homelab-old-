@@ -1,0 +1,66 @@
+name: Container Context
+author: Remko Molier
+description: Get the context for a container based on .env and container.json
+
+branding:
+  icon: container
+  color: yellow
+
+inputs:
+  path:
+    description: Base path for the container configuration
+
+runs:
+  using: composite
+  steps:
+    - run: npm install fs
+    - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+      env:
+        BUILD_PATH: ${{ inputs.path }}
+      with:
+        script: |
+          const fs = require('fs');
+          const path = process.env.BUILD_PATH;
+
+          function environmentBuilder(obj,prefix) {
+            for (const [key,entry] of Object.entries(obj)) {
+              const path = [prefix,key.toUpperCase()].filter(value => value != undefined && value != '').join('_');
+              
+              switch (typeof entry) {
+                case "object":
+                  if (!Array.isArray(entry) || entry.some(value => typeof value == 'object')) {
+                    environmentBuilder(entry,path);
+                  } else {
+                    core.exportVariable(path,entry.join('\n'));
+                  }
+                  break;
+                  
+                default:
+                  core.exportVariable(path,entry)
+              }   
+            }  
+          }
+
+          const configFile = `${path}/container.json`;
+
+
+          if (!fs.existsSync(configFile)) return false; 
+
+          await (async () => {
+            try {
+              await fs.promises.access(configFile, fs.constants.F_OK);
+
+              const config = JSON.parse(fs.readFileSync(configFile));
+
+              environmentBuilder(config);
+
+            } catch(err) {
+              core.setFailed(`Action failed with error ${err}`);
+            } 
+          })();  
+
+          return true;
+    - uses: xom9ikk/dotenv@de1ff27d319507880e6621e4d47424c677d95f68 # v2.2.0
+      with:
+        path: ${{ inputs.path }}
+        load-mode: skip
