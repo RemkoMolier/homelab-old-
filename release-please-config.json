@@ -4,6 +4,9 @@
   "sequential-calls": true,
 
   "packages": {
+    "containers/alpine": {
+      "component": "alpine"
+    },
     "containers/dhcpd": {
       "component": "dhcpd"
     }
