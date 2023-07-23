@@ -5,7 +5,14 @@
 
   "packages": {
     "containers/alpine": {
-      "component": "alpine"
+      "component": "alpine",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "containers/alpine/config.json",
+          "jsonpath": "image.version"
+        }
+      ]
     },
     "containers/dhcpd": {
       "component": "dhcpd"
