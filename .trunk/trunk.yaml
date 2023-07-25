@@ -1,6 +1,6 @@
 version: 0.1
 cli:
-  version: 1.12.3
+  version: 1.13.0
 plugins:
   sources:
     - id: trunk
@@ -9,12 +9,12 @@ plugins:
 lint:
   enabled:
     - actionlint@1.6.25
-    - checkov@2.3.335
+    - checkov@2.3.339
     - git-diff-check
     - hadolint@2.12.1-beta
     - markdownlint@0.35.0
     - prettier@3.0.0
-    - renovate@36.18.4
+    - renovate@36.21.0
     - taplo@0.8.1
     - terrascan@1.18.1:
         commands:
