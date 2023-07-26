@@ -1,0 +1,18 @@
+name: Container Build
+
+on:
+  pull_request: {}
+  push: {}
+  
+jobs:
+  events:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        with:
+          name: events.${{ github.event_name }}.json
+          path: ${{ GITHUB_EVENT_PATH }}
