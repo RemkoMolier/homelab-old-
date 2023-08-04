@@ -30,7 +30,7 @@ jobs:
         with:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_PRIVATE_KEY }}
-      - uses: trunk-io/trunk-action/upgrade@782e83f803ca6e369f035d64c6ba2768174ba61b # v1.1.6
+      - uses: trunk-io/trunk-action/upgrade@883e222ef19201ad402ef73e58101ec8186d7d54 # v1.1.7
         with:
           github-token: ${{ steps.get_token.outputs.token }}
           prefix: "deps(trunk-check):"
