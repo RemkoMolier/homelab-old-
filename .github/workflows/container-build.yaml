@@ -159,7 +159,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.metadata.outputs.labels }}
           outputs: type=image,name=${{ needs.context.outputs.image }},push-by-digest=true,name-canonical=true,push=true
-      - uses: cloudposse/github-action-matrix-outputs-write@928e2a2d3d6ae4eb94010827489805c17c81181f # 0.4.2
+      - uses: cloudposse/github-action-matrix-outputs-write@e90c7018e27e1c9466e0fa3cfe64720d9969ffca # 0.5.0
         with:
           matrix-step-name: ${{ github.job }}
           matrix-key: ${{ matrix.platform }}
