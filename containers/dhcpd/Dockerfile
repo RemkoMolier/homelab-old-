@@ -1,4 +1,4 @@
-FROM alpine:3.18@sha256:82d1e9d7ed48a7523bdebc18cf6290bdb97b82302a8a9c27d4fe885949ea94d1
+FROM alpine:3.18@sha256:1875c923b73448b558132e7d4a44b815d078779ed7a73f76209c6372de95ea8d
 
 # renovate: datasource=repology depName=alpine_3_18/dhcp versioning=loose
 ARG DHCP_VERSION="4.4.3_p1-r2"
