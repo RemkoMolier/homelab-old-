@@ -12,27 +12,46 @@
     "group:recommended",
     "replacements:all",
     "workarounds:all",
-    "regexManagers:dockerfileVersions"
+    "customManagers:dockerfileVersions"
   ],
-  "baseBranches": ["main"],
+  "baseBranches": [
+    "main"
+  ],
   "rebaseWhen": "conflicted",
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "automergeStrategy": "rebase",
   "packageRules": [
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackagePatterns": ["alpine"],
-      "separateMinorPatch": true
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "separateMinorPatch": true,
+      "matchPackageNames": [
+        "/alpine/"
+      ]
     },
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackagePatterns": ["alpine"],
-      "matchUpdateTypes": ["patch"],
-      "automerge": true
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "matchPackageNames": [
+        "/alpine/"
+      ]
     },
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true
     }
   ]
